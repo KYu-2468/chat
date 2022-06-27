@@ -1,7 +1,11 @@
 import "./App.css";
 import React, { useEffect, useRef, useState } from "react";
 import firebaseApp, { auth, firestore, getMessages } from "./utils/firebase";
-import { GoogleAuthProvider, signInWithRedirect } from "firebase/auth";
+import {
+  GoogleAuthProvider,
+  onAuthStateChanged,
+  signInWithRedirect,
+} from "firebase/auth";
 import {
   collection,
   addDoc,
@@ -12,12 +16,14 @@ import {
   query,
 } from "firebase/firestore";
 
-import { useAuthState } from "react-firebase-hooks/auth";
+import { useAuthState, useSignInWithGithub } from "react-firebase-hooks/auth";
 import { useCollection } from "react-firebase-hooks/firestore";
 import SignInPage from "./components/SignInPage";
 
 function App() {
   const [user] = useAuthState(auth);
+  const [signInWithGithub, githubUser, loading, error] =
+    useSignInWithGithub(auth);
   // const SignIn = ({ user }) => {
   //   const signInWithGoogle = async () => {
   //     const provider = new GoogleAuthProvider();
@@ -25,6 +31,16 @@ function App() {
   //   };
   //   return <button onClick={signInWithGoogle}>Sign in with Google</button>;
   // };
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      console.log(user);
+    });
+  });
+  useEffect(() => {
+    console.log("user changed: ", user);
+    console.log("github user changed: ", githubUser);
+  }, [githubUser, user]);
 
   const SignOut = () => {
     return (
@@ -38,7 +54,7 @@ function App() {
     <div className="App">
       {/* <header className="App-header"></header> */}
       <div>
-        <div id="firebaseui-auth-container"></div>
+        {/* <div id="firebaseui-auth-container"></div> */}
         <div id="loader"></div>
         {user ? (
           <>
@@ -107,11 +123,15 @@ const ChatRoom = () => {
 };
 
 const ChatMessage = ({ message }) => {
-  const { text, uid, photoURL } = message;
+  const { text, uid } = message;
+  let { photoURL } = message;
   const messageClass = uid === auth.currentUser.uid ? "sent" : "received";
+  if (!photoURL)
+    photoURL =
+      "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse4.mm.bing.net%2Fth%3Fid%3DOIP.L5LGlWkqPqoo-KW-TGeKsAHaHa%26pid%3DApi&f=1";
   return (
     <div className={`message ${messageClass}`}>
-      <img src={photoURL} alt="User" />
+      <img src={photoURL} alt={uid} />
       <p>{text}</p>
     </div>
   );

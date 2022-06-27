@@ -1,15 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import * as firebaseui from "firebaseui";
+import "firebaseui/dist/firebaseui.css";
 import { auth } from "../utils/firebase";
 import {
   GoogleAuthProvider,
   signInWithRedirect,
   GithubAuthProvider,
+  EmailAuthProvider,
 } from "firebase/auth";
 
 const uiConfig = {
   callbacks: {
     signInSuccessWithAuthResult: function (authResult, redirectUrl) {
+      console.log("is User logged in?");
+      console.log(authResult, " + ", redirectUrl);
       // User successfully signed in.
       // Return type determines whether we continue the redirect automatically
       // or whether we leave that to developer to handle.
@@ -26,9 +30,11 @@ const uiConfig = {
   //   signInSuccessUrl: "<url-to-redirect-to-on-success>",
   signInOptions: [
     // Leave the lines as is for the providers you want to offer your users.
+    EmailAuthProvider.PROVIDER_ID,
     new GoogleAuthProvider(auth).providerId,
-    new GithubAuthProvider().providerId,
+    new GithubAuthProvider(auth).providerId,
   ],
+  signInSuccessUrl: "http://localhost:3000/",
   // Terms of service url.
   //   tosUrl: "<your-tos-url>",
   // Privacy policy url.
@@ -36,10 +42,19 @@ const uiConfig = {
 };
 
 const SignInPage = () => {
-  const ui =
-    firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(auth);
-  ui.start("#firebaseui-auth-container", uiConfig);
-  return <></>;
+  // const ui =
+  //   firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(auth);
+  // ui.start("#firebaseui-auth-container", uiConfig);
+  useEffect(() => {
+    const ui =
+      firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(auth);
+    ui.start("#firebaseui-auth-container", uiConfig);
+  }, []);
+  return (
+    <>
+      <div id="firebaseui-auth-container">Please signup or login!</div>
+    </>
+  );
 };
 
 export default SignInPage;
