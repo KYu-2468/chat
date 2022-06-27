@@ -32,16 +32,6 @@ function App() {
   //   return <button onClick={signInWithGoogle}>Sign in with Google</button>;
   // };
 
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      console.log(user);
-    });
-  });
-  useEffect(() => {
-    console.log("user changed: ", user);
-    console.log("github user changed: ", githubUser);
-  }, [githubUser, user]);
-
   const SignOut = () => {
     return (
       auth.currentUser && (
