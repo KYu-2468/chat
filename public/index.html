@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Welcome to Firebase Hosting</title>
 
+    <!-- This is React part -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+
+    <!-- This is React part -->
+
     <!-- update the version number as needed -->
     <script defer src="/__/firebase/9.8.4/firebase-app-compat.js"></script>
     <!-- include only the Firebase features as you need -->
@@ -106,7 +111,7 @@
     </style>
   </head>
   <body>
-    <div id="message">
+    <!-- <div id="message">
       <h2>Welcome</h2>
       <h1>Firebase Hosting Setup Complete</h1>
       <p>
@@ -116,8 +121,9 @@
       <a target="_blank" href="https://firebase.google.com/docs/hosting/"
         >Open Hosting Documentation</a
       >
-    </div>
-    <p id="load">Firebase SDK Loading&hellip;</p>
+    </div> -->
+    <div id="root"></div>
+    <!-- <p id="load">Firebase SDK Loading&hellip;</p> -->
 
     <script>
       document.addEventListener("DOMContentLoaded", function () {

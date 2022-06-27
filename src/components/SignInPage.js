@@ -1,7 +1,11 @@
 import React from "react";
 import * as firebaseui from "firebaseui";
 import { auth } from "../utils/firebase";
-import { GoogleAuthProvider, signInWithRedirect } from "firebase/auth";
+import {
+  GoogleAuthProvider,
+  signInWithRedirect,
+  GithubAuthProvider,
+} from "firebase/auth";
 
 const uiConfig = {
   callbacks: {
@@ -23,6 +27,7 @@ const uiConfig = {
   signInOptions: [
     // Leave the lines as is for the providers you want to offer your users.
     new GoogleAuthProvider(auth).providerId,
+    new GithubAuthProvider().providerId,
   ],
   // Terms of service url.
   //   tosUrl: "<your-tos-url>",
@@ -34,12 +39,7 @@ const SignInPage = () => {
   const ui =
     firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(auth);
   ui.start("#firebaseui-auth-container", uiConfig);
-  return (
-    <>
-      <div id="firebaseui-auth-container"></div>
-      <div id="loader"></div>
-    </>
-  );
+  return <></>;
 };
 
 export default SignInPage;
