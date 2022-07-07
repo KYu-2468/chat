@@ -4,8 +4,8 @@ import { initializeApp } from "firebase/app";
 import { getFirestore, collection } from "firebase/firestore";
 import {
   getAuth,
-  onAuthStateChanged,
-  signInWithEmailAndPassword,
+  // onAuthStateChanged,
+  // signInWithEmailAndPassword,
 } from "firebase/auth";
 // TODO: Add SDKs for Firebase products that you want to use
 
@@ -27,8 +27,10 @@ const firebaseConfig = {
 const firebaseApp = initializeApp(firebaseConfig);
 
 export const auth = getAuth(firebaseApp);
-export const firestore = getFirestore(firebaseApp);
 auth.languageCode = "it";
+
+export const firestore = getFirestore(firebaseApp);
+
 export const getMessages = () => {
   // const querySnapshot = await getDocs(collection(firestore, "messages"));
   const messageRef = collection(firestore, "messages");

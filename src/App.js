@@ -1,6 +1,6 @@
 import "./App.css";
 import React, { useEffect, useRef, useState } from "react";
-import firebaseApp, { auth, firestore, getMessages } from "./utils/firebase";
+import { auth, firestore, getMessages } from "./utils/firebase";
 import {
   GoogleAuthProvider,
   onAuthStateChanged,
@@ -19,6 +19,7 @@ import {
 import { useAuthState, useSignInWithGithub } from "react-firebase-hooks/auth";
 import { useCollection } from "react-firebase-hooks/firestore";
 import SignInPage from "./components/SignInPage";
+import NewSignIn from "./components/NewSignIn";
 
 function App() {
   const [user] = useAuthState(auth);
@@ -53,7 +54,7 @@ function App() {
           </>
         ) : (
           <>
-            <SignInPage />
+            <NewSignIn />
           </>
         )}
       </div>
@@ -63,7 +64,7 @@ function App() {
 
 const ChatRoom = () => {
   const messagesRef = getMessages();
-  const q = query(messagesRef, orderBy("createdAt", "desc"), limit(10));
+  const q = query(messagesRef, orderBy("createdAt", "desc"), limit(30));
   const [messages] = useCollection(q);
   const [formValue, setFormValue] = useState("");
   const latestMessage = useRef();
@@ -99,7 +100,7 @@ const ChatRoom = () => {
           })}
       </div>
       <div ref={latestMessage}></div>
-      <div>
+      <div id="chat-input">
         <form onSubmit={sendMessage}>
           <input
             value={formValue}
