@@ -17,7 +17,7 @@ const uiConfig = {
     // Leave the lines as is for the providers you want to offer your users.
     GoogleAuthProvider.PROVIDER_ID,
     FacebookAuthProvider.PROVIDER_ID,
-    TwitterAuthProvider.PROVIDER_ID,
+    // TwitterAuthProvider.PROVIDER_ID,
     GithubAuthProvider.PROVIDER_ID,
     EmailAuthProvider.PROVIDER_ID,
   ],
